@@ -1,0 +1,7 @@
+<h2>My Account</h2>
+<?php if($this->identity == null): ?>
+<p>To log in <a href='<?php echo $this->url(array('controller'=>'user', 'action'=>'login')); ?>'>click here</a></p>
+<?php else: ?>
+<p>Welcome back <?php echo $this->identity->firstname;?></p>
+<p>To log out <a href='<?php echo $this->url(array('controller'=>'user', 'action'=>'logout')); ?>'>click here</a></p>
+<?php endif; ?>
