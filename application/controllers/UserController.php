@@ -52,7 +52,7 @@ class UserController extends Zend_Controller_Action
 				// store the username, first and last names of the user
 				$auth = Zend_Auth::getInstance();
 				$storage = $auth->getStorage();
-				$storage->write($authAdapter->getResultRowObject(array('username' , 'firstname' , 'lastname', 'role')));
+				$storage->write($authAdapter->getResultRowObject(array('username' , 'firstname' , 'lastname', 'role_id')));
 				
 				return $this->_forward('index'); 
 			} 

@@ -22,10 +22,12 @@
           <actionMethod actionName="add"/>
           <actionMethod actionName="edit"/>
           <actionMethod actionName="delete"/>
+          <actionMethod actionName="loan"/>
         </controllerFile>
       </controllersDirectory>
       <formsDirectory>
         <formFile formName="User"/>
+        <formFile formName="Book"/>
       </formsDirectory>
       <layoutsDirectory enabled="false"/>
       <modelsDirectory>
@@ -62,6 +64,9 @@
           </viewControllerScriptsDirectory>
           <viewControllerScriptsDirectory forControllerName="Book">
             <viewScriptFile forActionName="delete"/>
+          </viewControllerScriptsDirectory>
+          <viewControllerScriptsDirectory forControllerName="Book">
+            <viewScriptFile forActionName="loan"/>
           </viewControllerScriptsDirectory>
         </viewScriptsDirectory>
         <viewHelpersDirectory/>

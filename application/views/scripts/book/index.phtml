@@ -1,0 +1,28 @@
+<?php
+	$this->title = "My Books";
+	$this->headTitle($this->title);
+	
+	//$auth = Zend_Auth::getInstance();
+		
+?>
+<p>
+<a href="<?php echo $this->url(array('controller'=>'book','action'=>'add'));?>">Add new book</a>
+</p>
+<table>
+	<tr>
+		<th>Title</th>
+		<th>Author</th>
+		<th>&nbsp;</th>
+		</tr>
+		<?php foreach($this->books as $book) : ?>
+		<tr>
+		<td><?php echo $this->escape($book->title);?></td>
+		<td><?php echo $this->escape($book->author);?></td>
+		<td>
+		<a href="<?php echo $this->url(array('controller'=>'book','action'=>'edit', 'id'=>$book->id));?>">Edit</a>
+		<a href="<?php echo $this->url(array('controller'=>'book','action'=>'delete', 'id'=>$book->id));?>">Delete</a>
+		<a href="<?php echo $this->url(array('controller'=>'book','action'=>'loan', 'id'=>$book->id));?>">Loan</a>
+		</td>
+	</tr>
+	<?php endforeach; ?>
+</table>
