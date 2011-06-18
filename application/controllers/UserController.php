@@ -17,11 +17,17 @@ class UserController extends Zend_Controller_Action
 		{
 			$this->view->identity = $auth->getIdentity();
 		}
-		
     }
 
     public function loginAction()
     {
+	
+		$auth = Zend_Auth::getInstance();
+
+		if($auth->hasIdentity()) 
+		{
+			return $this->_forward('index'); 
+		}
         // action body
 		$userForm = new Application_Form_User();
 		$userForm->setAction('/libsys/user/login');
@@ -51,7 +57,7 @@ class UserController extends Zend_Controller_Action
 			{
 				$auth = Zend_Auth::getInstance();
 				$storage = $auth->getStorage();
-				$storage->write($authAdapter->getResultRowObject(array('username' , 'firstname' , 'lastname', 'role_id')));
+				$storage->write($authAdapter->getResultRowObject(array('username' , 'firstname' , 'lastname', 'role')));
 				
 				return $this->_forward('index'); 
 			} 
@@ -70,6 +76,8 @@ class UserController extends Zend_Controller_Action
         // action body
 		$authAdapter = Zend_Auth::getInstance();
 		$authAdapter->clearIdentity();
+		
+		return $this->_forward('login', 'user');
     }
 
 

@@ -6,6 +6,7 @@ class BookController extends Zend_Controller_Action
     public function init()
     {
         /* Initialize action controller here */
+		/*
 		$auth = Zend_Auth::getInstance();
 		
 		if(!$auth->hasIdentity()) 
@@ -13,6 +14,7 @@ class BookController extends Zend_Controller_Action
 			$this->_redirect('/user/login');
 			//return $this->_forward('login', 'user');
 		}
+		*/
     }
 
     public function indexAction()
