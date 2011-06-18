@@ -23,6 +23,7 @@
           <actionMethod actionName="edit"/>
           <actionMethod actionName="delete"/>
           <actionMethod actionName="loan"/>
+          <actionMethod actionName="return"/>
         </controllerFile>
       </controllersDirectory>
       <formsDirectory>
@@ -33,6 +34,7 @@
       <modelsDirectory>
         <dbTableDirectory>
           <dbTableFile dbTableName="Books"/>
+          <dbTableFile dbTableName="Histories"/>
         </dbTableDirectory>
       </modelsDirectory>
       <modulesDirectory enabled="false"/>
@@ -67,6 +69,9 @@
           </viewControllerScriptsDirectory>
           <viewControllerScriptsDirectory forControllerName="Book">
             <viewScriptFile forActionName="loan"/>
+          </viewControllerScriptsDirectory>
+          <viewControllerScriptsDirectory forControllerName="Book">
+            <viewScriptFile forActionName="return"/>
           </viewControllerScriptsDirectory>
         </viewScriptsDirectory>
         <viewHelpersDirectory/>

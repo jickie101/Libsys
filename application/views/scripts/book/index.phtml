@@ -1,9 +1,6 @@
 <?php
 	$this->title = "My Books";
 	$this->headTitle($this->title);
-	
-	//$auth = Zend_Auth::getInstance();
-		
 ?>
 <p>
 <a href="<?php echo $this->url(array('controller'=>'book','action'=>'add'));?>">Add new book</a>
@@ -12,17 +9,46 @@
 	<tr>
 		<th>Title</th>
 		<th>Author</th>
+		<th>Status</th>
 		<th>&nbsp;</th>
 		</tr>
-		<?php foreach($this->books as $book) : ?>
-		<tr>
-		<td><?php echo $this->escape($book->title);?></td>
-		<td><?php echo $this->escape($book->author);?></td>
-		<td>
-		<a href="<?php echo $this->url(array('controller'=>'book','action'=>'edit', 'id'=>$book->id));?>">Edit</a>
-		<a href="<?php echo $this->url(array('controller'=>'book','action'=>'delete', 'id'=>$book->id));?>">Delete</a>
-		<a href="<?php echo $this->url(array('controller'=>'book','action'=>'loan', 'id'=>$book->id));?>">Loan</a>
-		</td>
-	</tr>
-	<?php endforeach; ?>
+		<?php if (count($this->books)): ?>
+			<?php foreach($this->books as $book) : ?>
+			<tr>
+				<td><?php echo $this->escape($book['title']);?></td>
+				<td><?php echo $this->escape($book['author']);?></td>
+				<td>
+					<?php 
+						if($book['status'] == 0)
+						echo "available";
+						else
+						echo "not available";
+					?>
+				</td>
+				<td>
+					
+					<a href="<?php echo $this->url(array('controller'=>'book','action'=>'edit', 'id'=>$book['id']));?>">Edit</a>
+					<a href="<?php echo $this->url(array('controller'=>'book','action'=>'delete', 'id'=>$book['id']));?>">Delete</a>
+
+					<?php if($book['status'] == 0): ?>
+					<a href="<?php echo $this->url(array('controller'=>'book','action'=>'loan', 'id'=>$book['id']));?>">Loan</a>
+					<?php else: ?>
+					<a href="<?php echo $this->url(array('controller'=>'book','action'=>'return', 'id'=>$book['id']));?>">Return</a>
+					<?php endif; ?>
+
+				</td>
+			</tr>
+			<?php endforeach; ?>
+		<?php else: ?>
+			<tr>
+				<td colspan="4">No books available.</td>
+			</tr>
+		<?php endif; ?>
+			<tr>
+				<td colspan="4">
+				<?php 
+					echo $this->paginationControl($this->books,'Sliding','/partials/my_pagination_control.phtml'); 
+				?>
+				</td>
+			</tr>
 </table>

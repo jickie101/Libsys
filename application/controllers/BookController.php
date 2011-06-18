@@ -19,7 +19,20 @@ class BookController extends Zend_Controller_Action
     {
         // action body
 		$books = new Application_Model_DbTable_Books();
-		$this->view->books = $books->fetchAll();
+		//$this->view->books = $books->fetchAll();
+		/*
+		 * Get the page number , default 1
+		 */
+		$page = $this->_getParam('page',1);
+		/*
+		 * Object of Zend_Paginator
+		 */
+		$adapter = new Zend_Paginator_Adapter_DbSelect($books->select()->from('books'));
+
+		$paginator = new Zend_Paginator($adapter);
+		$paginator->setItemCountPerPage(2);
+		$paginator->setCurrentPageNumber($page);
+		$this->view->books = $paginator;
     }
 
     public function addAction()
@@ -38,10 +51,11 @@ class BookController extends Zend_Controller_Action
 				$title = $form->getValue('title');
 				$author = $form->getValue('author');
 				//$branch = $form->getValue('branch');
+				$status = 0;
 				$branch = 1;
 
 				$books = new Application_Model_DbTable_Books();
-				$books->addBook($title, $author, $branch);
+				$books->addBook($title, $author, $branch, $status);
 				
 				$this->_helper->redirector('index');
 			} 
@@ -68,11 +82,13 @@ class BookController extends Zend_Controller_Action
 				$id = (int)$form->getValue('id');
 				$title = $form->getValue('title');
 				$author = $form->getValue('author');
+				$status = $form->getValue('status');
+				
 				//$branch = $form->getValue('branch');
 				$branch = 1;
 
 				$books = new Application_Model_DbTable_Books();
-				$books->updateBook($id, $title, $author,  $branch);
+				$books->updateBook($id, $title, $author, $branch, $status);
 				
 				$this->_helper->redirector('index');
 			} 
@@ -95,52 +111,127 @@ class BookController extends Zend_Controller_Action
     public function deleteAction()
     {
         // action body
+		if ($this->getRequest()->isPost()) 
+		{
+			$del = $this->getRequest()->getPost('del');
+			
+			if ($del == 'Yes') 
+			{
+				$id = $this->getRequest()->getPost('id');
+				$books = new Application_Model_DbTable_Books();
+				$books->deleteBook($id);
+			}
+			$this->_helper->redirector('index');
+		} 
+		else 
+		{
+			$id = $this->_getParam('id', 0);
+			$books = new Application_Model_DbTable_Books();
+			$this->view->book = $books->getBook($id);
+		}
     }
 
     public function loanAction()
     {
         // action body
-        // action body
-
-			$id = $this->_getParam('id', 0);
-			
-			$form = new Zend_Form();
-			
-			$id = new Zend_Form_Element_Hidden('id');
-			$id->addFilter('Int');
-			
-			$bookDb = new Application_Model_DbTable_Books();
-			$bookData = $bookDb->getBook($id);
-			
-			$book = new Zend_Form_Element_Text('book');
-			$book->setLabel('Book')
-						->setValue($bookData['title'])
-						->setAttrib('readonly', 'true')
-						->setRequired(true)
-						->addFilter('StripTags')
-						->addFilter('StringTrim')
-						->addValidator('NotEmpty');
-			
-			$user = new Zend_Form_Element_Select('user');
-			$user->setLabel('user')
-				->setRequired()
-				->addErrorMessage('User required!');
-				
-			$user->addMultiOption(1, 'one');	
-			$user->addMultiOption(2, 'two');
-
-			$submit = new Zend_Form_Element_Submit('submit');
-			$submit->setAttrib('id', 'submitbutton');		
+		$bookId = $this->_getParam('id', 0);
 		
-			$form->addElements(array($id, $book, $user, $submit));    
-			
-			$form->submit->setLabel('Save');
-			$this->view->form = $form;
+		$form = new Zend_Form();
+		
+		$bookDb = new Application_Model_DbTable_Books();
+		$bookData = $bookDb->getBook($bookId);
+		
+		$id = new Zend_Form_Element_Hidden('id');
+		$id->addFilter('Int')
+					->setValue($bookData['id']);
 
+		$book = new Zend_Form_Element_Text('book');
+		$book->setLabel('Book')
+					->setValue($bookData['title'])
+					->setAttrib('readonly', 'true')
+					->setRequired(true)
+					->addFilter('StripTags')
+					->addFilter('StringTrim')
+					->addValidator('NotEmpty');
+		
+		$user = new Zend_Form_Element_Text('user');
+		$user->setLabel('User ID')
+					->setRequired(true)
+					->addFilter('StripTags')
+					->addFilter('StringTrim')
+					->addValidator('NotEmpty');
+
+		$datepicker = new ZendX_JQuery_Form_Element_DatePicker("return_date", array("label" => "Return Date"));
+		$datepicker->setJQueryParam('dateFormat', 'yy-mm-dd');
+
+		$submit = new Zend_Form_Element_Submit('submit');
+		$submit->setAttrib('id', 'submitbutton');		
+	
+		$form->addElements(array($id, $book, $user, $datepicker, $submit));    
+		
+		$form->submit->setLabel('Save');
+		$this->view->form = $form;
+		
+		if ($this->getRequest()->isPost()) 
+		{
+			$formData = $this->getRequest()->getPost();
+			
+			if ($form->isValid($formData)) 
+			{
+				//$branch = $form->getValue('branch');
+				$book = $form->getValue('id');
+				$user = $form->getValue('user');
+				$branch = 1;
+				$return_date = $form->getValue('return_date');
+				
+				$histories = new Application_Model_DbTable_Histories();
+				$status = $histories->addHistory($book, $user, $branch, $return_date);
+				
+				$books = new Application_Model_DbTable_Books();
+				$books->updateBookStatus($book, $status);
+				
+				$this->_helper->redirector('index', 'book');
+			} 
+			else 
+			{
+				$form->populate($formData);
+			}
+		}
     }
 
-
+    public function returnAction()
+    {
+        // action body
+		if ($this->getRequest()->isPost()) 
+		{
+			$ret = $this->getRequest()->getPost('ret');
+			
+			if ($ret == 'Yes') 
+			{
+				$id = $this->getRequest()->getPost('id');
+				
+				$histories = new Application_Model_DbTable_Histories();
+				$histories->updateHistory($id, date("Y-m-d"));
+				$history = $histories->getHistory($id);
+				
+				$books = new Application_Model_DbTable_Books();
+				$books->updateBookStatus($history['book_id'], 0);
+				
+				echo "thanks";
+			}
+			
+			$this->_helper->redirector('index', 'book');
+		} 
+		else 
+		{
+			$id = $this->_getParam('id', 0);
+			$books = new Application_Model_DbTable_Books();
+			$this->view->book = $books->getBook($id);
+		}
+    }
 }
+
+
 
 
 

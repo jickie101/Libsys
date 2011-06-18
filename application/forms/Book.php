@@ -27,11 +27,19 @@ class Application_Form_Book extends Zend_Form
 					->addFilter('StripTags')
 					->addFilter('StringTrim')
 					->addValidator('NotEmpty');
-							
+					
+		$status = new Zend_Form_Element_Select('status');
+		$status->setLabel('Status')
+			->setRequired()
+			->addErrorMessage('User required!');
+			
+		$status->addMultiOption(0, 'available');	
+		$status->addMultiOption(1, 'not available');
+			
 		$submit = new Zend_Form_Element_Submit('submit');
 		$submit->setAttrib('id', 'submitbutton');
 		
-		$this->addElements(array($id, $branch, $title, $author, $submit));    
+		$this->addElements(array($id, $branch, $title, $author, $status, $submit));    
 	}
 
 

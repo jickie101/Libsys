@@ -1,0 +1,15 @@
+<?php
+	$this->title = "Return book";
+	$this->headTitle($this->title);
+?>
+<p>Confirm return 
+'<?php echo $this->escape($this->book['title']); ?>' by
+'<?php echo $this->escape($this->book['author']); ?>'?
+</p>
+<form action="<?php echo $this->url(array('controller'=>'book','action'=>'return')); ?>" method="post">
+<div>
+	<input type="hidden" name="id" value="<?php echo $this->book['status']; ?>" />
+	<input type="submit" name="ret" value="Yes" />
+	<input type="submit" name="ret" value="No" />
+</div>
+</form>
