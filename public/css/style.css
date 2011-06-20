@@ -1,8 +1,4 @@
-body,html 
-{
-	margin: 0 5px;
-	font-family: Verdana,sans-serif;
-}
+
 h1 
 {
 	font-size: 1.4em;
@@ -19,7 +15,7 @@ th
 }
 td, th 
 {
-	padding-right: 5px;
+	padding-right: 20px;
 }
 /* style form */
 form dt 
@@ -41,7 +37,7 @@ form #submitbutton
 .formLayout label, .formLayout input, .formLayout span
 {
 	display: block;
-	width: 200px;
+	width: 100px;
 	float: left;
 	margin-bottom: 10px;
 }
@@ -61,5 +57,9 @@ div.formLayout label
 br
 {
 	clear: left;
+}
+div.paginationControl{
+	margin-top:10px;
+	margin-bottom:10px;
 }
 

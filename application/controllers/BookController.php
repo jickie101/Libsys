@@ -32,7 +32,7 @@ class BookController extends Zend_Controller_Action
 		$adapter = new Zend_Paginator_Adapter_DbSelect($books->select()->from('books'));
 
 		$paginator = new Zend_Paginator($adapter);
-		$paginator->setItemCountPerPage(2);
+		$paginator->setItemCountPerPage(10);
 		$paginator->setCurrentPageNumber($page);
 		$this->view->books = $paginator;
     }

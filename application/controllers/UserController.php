@@ -36,6 +36,8 @@ class UserController extends Zend_Controller_Action
 		$userForm->removeElement('firstname');
 		$userForm->removeElement('firstname');
 		$userForm->removeElement('lastname');
+		$userForm->removeElement('currentpassword');
+		$userForm->removeElement('confirmpassword');
 		$userForm->removeElement('role');
 		
 		if ($this->_request->isPost() && $userForm->isValid($_POST)) 

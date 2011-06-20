@@ -8,13 +8,31 @@
 <head>
 	<?php echo $this->headMeta(); ?>
 	<?php echo $this->headTitle(); ?>
+	<?php echo $this->headLink()->prependStylesheet($this->baseUrl().'/css/layout.css'); ?>
 	<?php echo $this->headLink()->prependStylesheet($this->baseUrl().'/css/style.css'); ?>
 	<?php echo $this->jQuery(); ?>
 </head>
 <body>
-<div id="content">
-<h1><?php echo $this->escape($this->title); ?></h1>
-<?php echo $this->layout()->content; ?>
+
+
+<div id="pageWrapper">
+	<div id="header">
+	<h1>Library System</h1>
+	</div>
+	
+	<div id="nav">&nbsp;</div>
+	
+	<div id="sidebar">
+
+	</div>
+	
+	<div id="main">
+		<?php echo $this->layout()->content?>&nbsp;
+	</div>
+	
+	<div id="footer">
+	<p><em>Powered by the Zend Framework</em></p>
+	</div>
 </div>
 </body>
 </html>
