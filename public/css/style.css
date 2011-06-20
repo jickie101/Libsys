@@ -1,32 +1,65 @@
-body,html {
-margin: 0 5px;
-font-family: Verdana,sans-serif;
+body,html 
+{
+	margin: 0 5px;
+	font-family: Verdana,sans-serif;
 }
-h1 {
-font-size: 1.4em;
-color: #008000;
+h1 
+{
+	font-size: 1.4em;
+	color: #008000;
 }
-a {
-color: #008000;
+a 
+{
+	color: #008000;
 }
 /* Table */
-th {
-text-align: left;
+th 
+{
+	text-align: left;
 }
-td, th {
-padding-right: 5px;
+td, th 
+{
+	padding-right: 5px;
 }
 /* style form */
-form dt {
-width: 100px;
-display: block;
-float: left;
-clear: left;
+form dt 
+{
+	width: 100px;
+	display: block;
+	float: left;
+	clear: left;
 }
-form dd {
-margin-left: 0;
-float: left;
+form dd
+{
+	margin-left: 0;
+	float: left;
 }
-form #submitbutton {
-margin-left: 100px;
+form #submitbutton 
+{
+	margin-left: 100px;
 }
+.formLayout label, .formLayout input, .formLayout span
+{
+	display: block;
+	width: 200px;
+	float: left;
+	margin-bottom: 10px;
+}
+.formLayout .errors
+{
+	color:#ff0000;
+}
+.formLayout .errors ul
+{
+	margin:0px;
+}
+div.formLayout label
+{
+	text-align: right;
+	padding-right: 20px;
+}
+br
+{
+	clear: left;
+}
+

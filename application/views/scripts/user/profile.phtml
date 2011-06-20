@@ -1,0 +1,33 @@
+<?php
+	$this->title = "My Profile";
+	$this->headTitle($this->title);
+?>
+<div class="formLayout">
+
+	<label>User I.D</label>
+	<span><?php echo $this->identity['id']; ?></span>
+	<br />
+	
+	<label>First Name</label>
+	<span><?php echo $this->identity['firstname']; ?></span>
+	<br />
+	
+	<label>Last Name</label>
+	<span><?php echo $this->identity['lastname']; ?></span>
+	<br />
+	
+	<label>Role</label>
+	<span><?php echo $this->identity['role']; ?></span>
+	<br />
+	
+	<label>&nbsp;</label>
+	<span><a href="<?php echo $this->url(array('controller'=>'user','action'=>'edit', 'id'=>$this->identity['id']));?>">edit profile</a></span>
+	<br />
+	
+	<label>&nbsp;</label>
+	<span><a href="<?php echo $this->url(array('controller'=>'user','action'=>'password', 'id'=>$this->identity['id']));?>">change password</a></span>
+	<br />
+	
+</div>
+
+<p>To log out <a href='<?php echo $this->url(array('controller'=>'user', 'action'=>'logout'), null,true); ?>'>click here</a></p>
