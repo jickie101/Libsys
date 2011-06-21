@@ -2,33 +2,19 @@
 
 class BookController extends Zend_Controller_Action
 {
-
+	
     public function init()
     {
-        /* Initialize action controller here */
-		/*
-		$auth = Zend_Auth::getInstance();
-		
-		if(!$auth->hasIdentity()) 
-		{
-			$this->_redirect('/user/login');
-			//return $this->_forward('login', 'user');
-		}
-		*/
+		$this->view->auth = new Myzend_Authenticate($this->getRequest());
     }
 
     public function indexAction()
     {
-        // action body
+
 		$books = new Application_Model_DbTable_Books();
-		//$this->view->books = $books->fetchAll();
-		/*
-		 * Get the page number , default 1
-		 */
+
 		$page = $this->_getParam('page',1);
-		/*
-		 * Object of Zend_Paginator
-		 */
+
 		$adapter = new Zend_Paginator_Adapter_DbSelect($books->select()->from('books'));
 
 		$paginator = new Zend_Paginator($adapter);
@@ -140,6 +126,8 @@ class BookController extends Zend_Controller_Action
 		
 		$form = new Zend_Form();
 		
+		$form->addElementPrefixPath('Myzend_Form_Decorator','Myzend/Form/Decorator','decorator');
+		
 		$bookDb = new Application_Model_DbTable_Books();
 		$bookData = $bookDb->getBook($bookId);
 		
@@ -149,6 +137,7 @@ class BookController extends Zend_Controller_Action
 
 		$book = new Zend_Form_Element_Text('book');
 		$book->setLabel('Book')
+					->setDecorators(array('Custom'))
 					->setValue($bookData['title'])
 					->setAttrib('readonly', 'true')
 					->setRequired(true)
@@ -158,6 +147,7 @@ class BookController extends Zend_Controller_Action
 		
 		$user = new Zend_Form_Element_Text('user');
 		$user->setLabel('User ID')
+					->setDecorators(array('Custom'))
 					->setRequired(true)
 					->addFilter('StripTags')
 					->addFilter('StringTrim')
@@ -218,8 +208,7 @@ class BookController extends Zend_Controller_Action
 				
 				$books = new Application_Model_DbTable_Books();
 				$books->updateBookStatus($history['book_id'], 0);
-				
-				echo "thanks";
+
 			}
 			
 			$this->_helper->redirector('index', 'book');

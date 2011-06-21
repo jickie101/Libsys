@@ -27,23 +27,32 @@ class Application_Model_DbTable_Users extends Zend_Db_Table_Abstract
 		$this->insert($data);
 	}
 	
-	public function updateUser($id, $firstname, $lastname, $role)
+	public function updateUser($id, $firstname, $lastname, $role=null)
 	{
-		$data = array(
-			'firstname' => $firstname,
-			'lastname' => $lastname,
-			'role' => $role
-		);
+		if($role==null)
+		{
+			$data = array(
+				'firstname' => $firstname,
+				'lastname' => $lastname
+			);
+		}
+		else
+		{
+			$data = array(
+				'firstname' => $firstname,
+				'lastname' => $lastname,
+				'role' => $role
+			);
+		}
 		$this->update($data, 'id = '. (int)$id);
 	}
 	
-	public function updatePassword($password)
+	public function updatePassword($id, $password)
 	{
 		$data = array(
 			'password' => md5($password)
 		);
 		$this->update($data, 'id = '. (int)$id);
 	}
-	
 }
 

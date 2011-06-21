@@ -40,10 +40,12 @@ form #submitbutton
 	width: 100px;
 	float: left;
 	margin-bottom: 10px;
+	text-transform: capitalize;
 }
 .formLayout .errors
 {
 	color:#ff0000;
+	margin-left: 130px;
 }
 .formLayout .errors ul
 {
@@ -61,5 +63,10 @@ br
 div.paginationControl{
 	margin-top:10px;
 	margin-bottom:10px;
+}
+
+#main table tr td
+{
+	text-transform: capitalize;
 }
 

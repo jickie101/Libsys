@@ -9,7 +9,7 @@
 	<?php echo $this->headMeta(); ?>
 	<?php echo $this->headTitle(); ?>
 	<?php echo $this->headLink()->prependStylesheet($this->baseUrl().'/css/layout.css'); ?>
-	<?php echo $this->headLink()->prependStylesheet($this->baseUrl().'/css/style.css'); ?>
+	<?php echo $this->headLink()->setStylesheet($this->baseUrl().'/css/style.css'); ?>
 	<?php echo $this->jQuery(); ?>
 </head>
 <body>
@@ -20,7 +20,20 @@
 	<h1>Library System</h1>
 	</div>
 	
-	<div id="nav">&nbsp;</div>
+	<div id="nav">
+
+		<ul class="navigation">
+			<li>
+				<a href="<?php echo $this->url(array('controller'=>'index', 'action'=>'index')); ?>">Home</a>
+			</li>
+			<li>
+				<a href="<?php echo $this->url(array('controller'=>'user', 'action'=>'profile')); ?>">Profile</a>
+			</li>
+			<li>
+				<a href="<?php echo $this->url(array('controller'=>'book', 'action'=>'index')); ?>">Books</a>
+			</li>
+		</ul> &nbsp;
+	</div>
 	
 	<div id="sidebar">
 

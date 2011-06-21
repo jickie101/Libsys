@@ -7,6 +7,7 @@ class Application_Form_Book extends Zend_Form
     {
         /* Form Elements & Other Definitions Here ... */
 		$this->setName('book');
+
 		$this->addElementPrefixPath('Myzend_Form_Decorator','Myzend/Form/Decorator','decorator');
 		
 		$id = new Zend_Form_Element_Hidden('id');

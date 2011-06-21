@@ -18,7 +18,7 @@ class Myzend_Controller_Plugin_Acl extends Zend_Controller_Plugin_Abstract
 		$acl->add(new Zend_Acl_Resource('user'));
 
 		$acl->allow('librarian', 'book', array('index', 'loan', 'return'));
-		$acl->allow('librarian', 'user', array('index', 'profile', 'login', 'logout'));
+		$acl->allow('librarian', 'user', array('index', 'profile', 'edit', 'password', 'login', 'logout'));
         
 		$acl->deny('guest', 'book');
 		$acl->allow('guest', 'user', array('login', 'logout'));
@@ -55,6 +55,10 @@ class Myzend_Controller_Plugin_Acl extends Zend_Controller_Plugin_Abstract
                $request->setControllerName('error');
                $request->setActionName('noauth');
 			}
-        } 
+        }
+		
+		$registry = Zend_Registry::getInstance();
+		$registry->set('acl', $acl);
+		
     }    
 }

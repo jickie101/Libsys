@@ -2,9 +2,11 @@
 	$this->title = "My Books";
 	$this->headTitle($this->title);
 ?>
+<?php if($this->auth->isAllowed('book', 'add')): ?>
 <p>
 <a href="<?php echo $this->url(array('controller'=>'book','action'=>'add'));?>">Add new book</a>
 </p>
+<?php endif; ?>
 <table>
 	<tr>
 		<th>Title</th>
@@ -27,13 +29,22 @@
 				</td>
 				<td>
 					
-					<a href="<?php echo $this->url(array('controller'=>'book','action'=>'edit', 'id'=>$book['id']));?>">Edit</a>
-					<a href="<?php echo $this->url(array('controller'=>'book','action'=>'delete', 'id'=>$book['id']));?>">Delete</a>
-
+					<?php if($this->auth->isAllowed('book', 'edit')): ?>
+					<a href="<?php echo $this->url(array('controller'=>'book','action'=>'edit', 'id'=>$book['id']));?>">Edit</a>&nbsp;&nbsp;
+					<?php endif; ?>
+					
+					<?php if($this->auth->isAllowed('book', 'delete')): ?>
+					<a href="<?php echo $this->url(array('controller'=>'book','action'=>'delete', 'id'=>$book['id']));?>">Delete</a>&nbsp;&nbsp;
+					<?php endif; ?>
+					
 					<?php if($book['status'] == 0): ?>
-					<a href="<?php echo $this->url(array('controller'=>'book','action'=>'loan', 'id'=>$book['id']));?>">Loan</a>
+						<?php if($this->auth->isAllowed('book', 'loan')): ?>
+						<a href="<?php echo $this->url(array('controller'=>'book','action'=>'loan', 'id'=>$book['id']));?>">Loan</a>
+						<?php endif; ?>
 					<?php else: ?>
-					<a href="<?php echo $this->url(array('controller'=>'book','action'=>'return', 'id'=>$book['id']));?>">Return</a>
+						<?php if($this->auth->isAllowed('book', 'return')): ?>
+						<a href="<?php echo $this->url(array('controller'=>'book','action'=>'return', 'id'=>$book['id']));?>">Return</a>
+						<?php endif; ?>
 					<?php endif; ?>
 
 				</td>

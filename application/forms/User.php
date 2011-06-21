@@ -81,7 +81,5 @@ class Application_Form_User extends Zend_Form
 
 		$this->addElements(array($id, $role, $currentpassword, $password, $confirmpassword, $firstname, $lastname, $submit));
     }
-
-
 }
 
